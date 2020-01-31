@@ -12,6 +12,20 @@ const getAuthorsQuery = gql`
 `;
 
 class AddBook extends Component {
+  displayAuthors() {
+    var data = this.props.data;
+    if (data.loading) {
+      return <option disabled>Loading Authors...</option>;
+    } else {
+      return data.authors.map(author => {
+        return (
+          <option key={author.id} value={author.id}>
+            {author.name}
+          </option>
+        );
+      });
+    }
+  }
   render() {
     //console.log(this.props);
     return (
@@ -30,13 +44,14 @@ class AddBook extends Component {
           <label>Author:</label>
           <select>
             <option>Select author</option>
+            {this.displayAuthors()}
           </select>
         </div>
 
-        <button></button>
+        <button>+</button>
       </form>
     );
   }
 }
 
-export default graphql(getBooksQuery)(BookList);
+export default graphql(getAuthorsQuery)(AddBook);
